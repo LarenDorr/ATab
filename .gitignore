@@ -1,0 +1,6 @@
+# dist folder
+dist
+# chrome user data folder
+userData
+# node modules
+node_modules
