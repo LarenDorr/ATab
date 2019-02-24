@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackMessages = require('webpack-messages')
 const ChromeReloadPlugin  = require('crx-reload-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -20,7 +21,7 @@ module.exports = {
 		filename: '[name]/[name].js'
 	},
 	resolve: {
-		extensions: ['.js', '.json'],
+		extensions: ['.js', '.json', '.vue'],
 		alias: {
 			src: resolve('src'),
 			img: resolve('src/images')
@@ -40,10 +41,18 @@ module.exports = {
 				test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src')]
-			}
+			},
+			{
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          cacheBusting: true
+        }
+      }
 		]
 	},
 	plugins: [
+		new VueLoaderPlugin(),
 		new WebpackMessages({
       name: 'crx',
       logger: str => console.log(`>> ${str}`)

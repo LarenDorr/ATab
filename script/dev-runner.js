@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const cp = require('child_process')
 const loadExt = require('./loadExtension.js')
 const devConfig = require('../config/webpack.dev.js')
 
@@ -32,7 +33,7 @@ packExt.then(() => {
 	console.log(e)
 })
 
-
+cp.exec(`npx vue-devtools`)
 process.on('unhandledRejection', err => {
-	throw err;
+	throw err
 })
