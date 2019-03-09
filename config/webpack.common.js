@@ -24,7 +24,8 @@ module.exports = {
 		extensions: ['.js', '.json', '.vue'],
 		alias: {
 			src: resolve('src'),
-			img: resolve('src/images')
+			img: resolve('src/images'),
+			main: resolve('src/main')
 		}
 	},
 	module: {
@@ -48,6 +49,13 @@ module.exports = {
         options: {
           cacheBusting: true
         }
+      },
+			{
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
       }
 		]
 	},
