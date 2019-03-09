@@ -1,13 +1,18 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-class App extends Component{
-	render(){
-		return (
-			<div>hello</div>
-		)
-	}
+import devtools from '@vue/devtools'
+
+if (process.env.NODE_ENV === 'development') {
+  devtools.connect('http://localhost',8098)
 }
-ReactDOM.render(
-	<App></App>,
-	document.getElementById('app')
-)
+
+import Vue from 'vue'
+import App from './App.vue'
+
+new Vue({
+	el: '#app',
+	components: {
+		App
+	},
+	render: h => h(App)
+})
+
+

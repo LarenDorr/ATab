@@ -26,8 +26,9 @@ module.exports = {
 	},
 	"options_page": "options/options.html",
 	"permissions": [
-		'tabs'
+		'tabs',
+		'https://www.google.cn/'
 	],
 	"web_accessible_resources": ["images/*"],
-	"content_security_policy": "script-src 'self' http://localhost:8097/ 'unsafe-eval'; object-src 'self'"
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
