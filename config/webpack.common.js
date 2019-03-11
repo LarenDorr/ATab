@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackMessages = require('webpack-messages')
@@ -20,12 +21,14 @@ module.exports = {
 		path: resolve('dist'),
 		filename: '[name]/[name].js'
 	},
+	devtool: '#source-map',
 	resolve: {
 		extensions: ['.js', '.json', '.vue'],
 		alias: {
 			src: resolve('src'),
 			img: resolve('src/images'),
-			main: resolve('src/main')
+			main: resolve('src/main'),
+			chrome: resolve('src/chrome')
 		}
 	},
 	module: {
@@ -38,6 +41,16 @@ module.exports = {
           name: 'img/[name].[ext]'
         }
       },
+			// TODO: support multi entry
+			{
+				test: /\.(eot|woff|woff2|ttf)([\?]?.*)$/,
+				loader: "file-loader",
+				options: {
+					name: '[name].[ext]',
+					outputPath: '../fonts',
+					emitFile: false
+				}
+			},
 			{
 				test: /\.js$/,
         loader: 'babel-loader',
@@ -87,7 +100,11 @@ module.exports = {
 			{
 				from: 'images',
 				to: resolve('dist/images')
-			}
+			},
+			{
+        from: 'fonts/',
+        to: resolve('dist/fonts')
+      },
 		]),
 		new ChromeReloadPlugin({
 			manifest: resolve('src/manifest.js'),
@@ -95,7 +112,8 @@ module.exports = {
 				name: 'main',
 				inject: resolve('src/main/main.js'),
 				listens: [resolve('src/main')]
-			}]
+			}],
+			logLevel: 'info'
 		})
 	]
 }
