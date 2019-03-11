@@ -1,9 +1,10 @@
 <template>
 	<div>
-		<img :src="this.imgData" :alt="this.tabUrl">
+		<img :src="this.imgData">
 	</div>
 </template>
 <script>
+import IconStorage from 'chrome/IconStorage'
 // TODO: get img dataurl from storagess
 export default {
 	name: 'TabIcon',
@@ -13,8 +14,13 @@ export default {
 	data: function () {
 		return {
 			baseUrl: 'https://www.google.cn/s2/favicons?domain=',
-			tabUrl: this.url, // TODO: tab 截断query
 			imgData: ''
+		}
+	},
+	computed: {
+		tabUrl(){
+			let urlArr = (new URL(this.url)).hostname.split('.')
+			return `${urlArr[urlArr.length - 2]}.${urlArr[urlArr.length - 1]}`
 		}
 	},
 	methods: {
@@ -32,9 +38,18 @@ export default {
 		}
 	},
 	mounted(){
-		this.getImageData((imgData) => {
-			this.imgData = imgData
-		})
+		IconStorage
+			.get(this.tabUrl)
+			.then(data => {
+				if (data) {
+					this.imgData = data
+				} else {
+					this.getImageData((imgData) => {
+						this.imgData = imgData
+						IconStorage.set(this.tabUrl, imgData)
+					})
+				}
+			})
 	}
 	
 }

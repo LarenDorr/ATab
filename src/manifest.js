@@ -27,6 +27,8 @@ module.exports = {
 	"options_page": "options/options.html",
 	"permissions": [
 		'tabs',
+		'storage',
+		'unlimitedStorage',
 		'https://www.google.cn/'
 	],
 	"web_accessible_resources": ["images/*"],
