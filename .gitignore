@@ -4,3 +4,8 @@ dist
 userData
 # node modules
 node_modules
+
+.vscode
+
+# mock data
+src/main/data
